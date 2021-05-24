@@ -6,7 +6,7 @@
 1703:Bibliothèque Houghton de‧l' Université Harvard :
 1704:Bibliothèque de la Pléiade|Pléiade II:
 1705:Bibliothèque de‧La Pléiade :
-1706:Bibliothèque de‧la Faculté de Philosophie :
+1706:Bibliothèque de‧la Faculté de Philosophie |Bibliothèque Houghton de‧l' Université Harvard:;('Corpus\\articles_presse_yourcenar.txt', 5319, 53)
 1707:Bibliothèque de‧la Pléiade :
 1708:British Museum :
 1709:CIDMY :

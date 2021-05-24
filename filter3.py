@@ -126,7 +126,19 @@ def suggestion(dicos, mot):
         res = sorted(score.items(), key=lambda item: item[1])
 
     return res[len(res) - 5:len(res)]
+def recherche(dicos, mot):
+    score = dict()
+    for dico in dicos:
+        for (id, listes) in dico[1].items():
+            alias = listes[0]
+            score[id] = 0
+            for a in alias:
+                score_a = textdistance.sorensen(mot, a)
+                if (score_a > score[id]):
+                    score[id] = score_a
+        res = sorted(score.items(), key=lambda item: item[1])
 
+    return res[len(res) - 5:len(res)]
 
 def getDicoFromId(dicos, id):
     for dico in dicos:
@@ -142,6 +154,7 @@ def getAliases(dicos, id):
 
 
 def afficher_contexte(occurence, corpus, numWords):
+    print("Fichier source : ",occurence[0])
     line = corpus[occurence[0]].splitlines()[int(occurence[1])]
     line = line.split()
     for i in range(numWords):
@@ -151,6 +164,38 @@ def afficher_contexte(occurence, corpus, numWords):
         str += m + " "
     print(str + "\n")
 
+
+def chooseTag(pred,dicos):
+    i=1
+    print("1.Est ce que c'est un " + pred)
+    for dico in dicos:
+        i+=1
+        print(i,". ",dico[0])
+    i+=1
+    print(i,". Bruit")
+    print("0. Ajouter un mot commun")
+    print("-1. Ignorer")
+    print("-3. Arreter")
+    n=eval(input("Choix? "))
+    if(n==1):
+        j = 0
+        for dico in dicos:
+            j+=1
+            if dico[0] == pred : n = j+1
+    return n,i
+
+def chooseNoTag(dicos):
+    i=0
+    for dico in dicos:
+        i+=1
+        print(i,". ",dico[0])
+    i+=1
+    print(i,". Bruit")
+    print("0. Ajouter un mot commun")
+    print("-1. Ignorer")
+    print("-3. Arreter")
+    n=eval(input("Choix? "))
+    return n,i
 
 # demander au utilisateur de classer les noms : c'est la version initiale un peu modifiée
 def classement(toSort, dicos, communs, noise, corpus, max_id):
@@ -177,163 +222,159 @@ def classement(toSort, dicos, communs, noise, corpus, max_id):
                     line += alias + ', '
                 line += 'SCORE : ' + str(scores[len(sugg) - i]) + "\n"
                 print(line)
+            print(i+1,". Rechercher à partir d'un autre alias")
             print(0, ". Autre")
             print("-1. Ignorer")
             print("-3. Arreter")
             n = -2
-            while ((n != -1 and n != -3 and n < 0) or n > i):
-                n = eval(input("Choix? "))
-                if (n < 0 or n > i):
+            while((n!=-1 and n!=-3 and n<0) or n>i+1):
+                n=eval(input("Choix? "))
+                if(n<0 or n>i+1):
                     print("choisissez parmis les options")
-            if (n > 0):
+            if(n>0 and n<i+1):
                 print("Peut-il y avoir des ambiguités sur ce mot?")
                 print("1. Oui")
                 print("2. Non")
-                c = eval(input("Choix ?"))
-                if (c == 1):
-                    d = getDicoFromId(dicos, ids[len(sugg) - n - 1])
-                    if (mot[0] not in d[1][ids[len(sugg) - n - 1]][0]):
-                        d[1][ids[len(sugg) - n - 1]][0].append(mot[0])
-                    d[1][ids[len(sugg) - n - 1]][1].append(occurence)
-                elif (c == 2):
-                    d = getDicoFromId(dicos, ids[len(sugg) - n - 1])
-                    if (mot[0] not in d[1][ids[len(sugg) - n - 1]][0]):
-                        d[1][ids[len(sugg) - n - 1]][0].append(mot[0])
+                c=eval(input("Choix ?"))
+                if(c==1):
+                    d=getDicoFromId(dicos,ids[len(sugg)-n-1])
+                    if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
+                        d[1][ids[len(sugg)-n-1]][0].append(mot[0])
+                    d[1][ids[len(sugg)-n-1]][1].append(occurence)
+                elif(c==2):
+                    d=getDicoFromId(dicos,ids[len(sugg)-n-1])
+                    if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
+                        d[1][ids[len(sugg)-n-1]][0].append(mot[0])
                     for occ in mot[1]:
-                        d[1][ids[len(sugg) - n - 1]][1].append(occ)
+                        d[1][ids[len(sugg)-n-1]][1].append(occ)
 
                     break
-            elif (n == -3):
-                done = True
+
+            elif(n==i+1):
+                print("Entrer l'alias à rechercher")
+                name=input("Choix?")
+                sugg=recherche(dicos,name)
+                i=0
+                ids=[]
+                scores=[]
+                for s in sugg:
+                    ids.append(s[0])
+                    scores.append(s[1])
+                for i in range(1,len(sugg)+1):
+
+                    a=getAliases(dicos,ids[len(sugg)-i])
+                    line=str(i)+". "
+                    for alias in a:
+                        line+=alias+', '
+                    line+='SCORE : '+str(scores[len(sugg)-i])+"\n"
+                    print(line)
+                print(0,". Autre")
+                print("-1. Ignorer")
+                print("-3. Arreter")
+                n=-2
+                while((n!=-1 and n!=-3 and n<0) or n>i):
+                    n=eval(input("Choix? "))
+                    if(n<0 or n>i):
+                        print("choisissez parmis les options")
+                if(n>0):
+                    print("Peut-il y avoir des ambiguités sur ce mot?")
+                    print("1. Oui")
+                    print("2. Non")
+                    c=eval(input("Choix ?"))
+                    if(c==1):
+                        d=getDicoFromId(dicos,ids[len(sugg)-n-1])
+                        if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
+                            d[1][ids[len(sugg)-n-1]][0].append(mot[0])
+                        d[1][ids[len(sugg)-n-1]][1].append(occurence)
+                    elif(c==2):
+                        d=getDicoFromId(dicos,ids[len(sugg)-n-1])
+                        if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
+                            d[1][ids[len(sugg)-n-1]][0].append(mot[0])
+                        for occ in mot[1]:
+                            d[1][ids[len(sugg)-n-1]][1].append(occ)
+
+                        break
+                elif(n==-3):
+                    done=True
+                    break
+            elif(n==-3 or done):
+                done=True
                 break
             elif(n==0):
-                print("l'entité peut elle avoir un autre nom qui serait déjà dans un dictionnaire?(taper le nom en question si oui, rien dans le cas contraire)")
-                name=input("Choix?")
-                if(not len(name)==0):
-                    sugg=suggestion(dicos,name)
-                    i=0
-                    ids=[]
-                    scores=[]
-                    for s in sugg:
-                        ids.append(s[0])
-                        scores.append(s[1])
-                    for i in range(1,len(sugg)+1):
-
-                        a=getAliases(dicos,ids[len(sugg)-i])
-                        line=str(i)+". "
-                        for alias in a:
-                            line+=alias+', '
-                        line+='SCORE : '+str(scores[len(sugg)-i])+"\n"
-                        print(line)
-                    print(0,". Autre")
-                    print("-1. Ignorer")
-                    print("-3. Arreter")
-                    n=-2
-                    while((n!=-1 and n!=-3 and n<0) or n>i):
-                        n=eval(input("Choix? "))
-                        if(n<0 or n>i):
-                            print("choisissez parmis les options")
-                    if(n>0):
-                        print("Peut-il y avoir des ambiguités sur ce mot?")
-                        print("1. Oui")
-                        print("2. Non")
-                        c=eval(input("Choix ?"))
-                        if(c==1):
-                            d=getDicoFromId(dicos,ids[len(sugg)-n-1])
-                            if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
-                                d[1][ids[len(sugg)-n-1]][0].append(mot[0])
-                            d[1][ids[len(sugg)-n-1]][1].append(occurence)
-                        elif(c==2):
-                            d=getDicoFromId(dicos,ids[len(sugg)-n-1])
-                            if(mot[0] not in d[1][ids[len(sugg)-n-1]][0]):
-                                d[1][ids[len(sugg)-n-1]][0].append(mot[0])
-                            for occ in mot[1]:
-                                d[1][ids[len(sugg)-n-1]][1].append(occ)
-
-                            break
-                    elif(n==-3):
-                        done=True
-                        break
+                bool = 0
+                pred="NoTag"
+                try:
+                    pred = model.predict(corpus[occurence[0]].splitlines()[int(occurence[1])], mot[0])
+                except:
+                    bool = 1
+                i=0
+                if pred != "NoTag" and pred != "" and bool == 0:
+                    n,i=chooseTag(pred,dicos)
                 else:
-                    bool = 0
-                    try:
-                        pred = model.predict(corpus[occurence[0]].splitlines()[int(occurence[1])], mot[0])
-                    except:
-                        bool = 1
-                    i=0
-                    if pred != "NoTag" and pred != "" and bool == 0: print("1.Est ce que c'est un " + pred)
-                    for dico in dicos:
-                        i+=1
-                        print(i+1,". ",dico[0])
-                    i+=1
-                    print(i,". Bruit")
-                    print("0. Ajouter un mot commun")
-                    print("-1. Ignorer")
-                    print("-3. Arreter")
-                    n=eval(input("Choix? "))
-                    if (n>0):
-                        if (n==1):
-                            j = 0
-                            for dico in dicos:
-                                j+=1
-                                if dico == pred : n = j+1
-                        if (n==i):
-                            print("Peut-il y avoir des ambiguités sur ce mot?")
-                            print("1. Oui")
-                            print("2. Non")
-                            c=eval(input("Choix ?"))
-                            if(c==1):
-                                if(mot[0] in noise[0].keys()):
-                                    noise[0][mot[0]].append(occurence)
-                                else:
-                                    noise[0][mot[0]]=[occurence]
-                            if(c==2):
-                                if(mot[0] in noise[0].keys()):
-                                    for occ in mot[1]:
-                                        noise[0][mot[0]].append(occ)
-                                else:
-                                    noise[0][mot[0]]=[]
-                                    for occ in mot[1]:
-                                        noise[0][mot[0]].append(occ)
-                                break
-                        else:
-                            print("Peut-il y avoir des ambiguités sur ce mot?")
-                            print("1. Oui")
-                            print("2. Non")
-                            c=eval(input("Choix ?"))
-                            max_id=max_id+1
-
-                            if(c==1):
-                                dicos[n-1][1][str(max_id)]=([mot[0]],[occurence])
-                            elif(c==2):
-
-                                dicos[n-2][1][str(max_id)]=([mot[0]],[])
-                                for occ in mot[1]:
-                                    dicos[n-2][1][str(max_id)][1].append(occ)
-                                    
-                                break
-                    elif (n==-3):
-                        done=True
-                        break
-                    elif (n==0):
+                    n,i=chooseNoTag(dicos)
+                if (n>0):
+                    if (n==1):
+                        j = 0
+                        for dico in dicos:
+                            j+=1
+                            if dico == pred : n = j+1
+                    if (n==i):
                         print("Peut-il y avoir des ambiguités sur ce mot?")
                         print("1. Oui")
                         print("2. Non")
                         c=eval(input("Choix ?"))
                         if(c==1):
-                            if(mot[0] in communs[0].keys()):
-                                communs[0][mot[0]].append(occurence)
+                            if(mot[0] in noise[0].keys()):
+                                noise[0][mot[0]].append(occurence)
                             else:
-                                communs[0][mot[0]]=[occurence]
+                                noise[0][mot[0]]=[occurence]
                         if(c==2):
-                            if(mot[0] in communs[0].keys()):
+                            if(mot[0] in noise[0].keys()):
                                 for occ in mot[1]:
-                                    communs[0][mot[0]].append(occ)
+                                    noise[0][mot[0]].append(occ)
                             else:
-                                communs[0][mot[0]]=[]
+                                noise[0][mot[0]]=[]
                                 for occ in mot[1]:
-                                    communs[0][mot[0]].append(occ)
+                                    noise[0][mot[0]].append(occ)
                             break
+                    else:
+                        print("Peut-il y avoir des ambiguités sur ce mot?")
+                        print("1. Oui")
+                        print("2. Non")
+                        c=eval(input("Choix ?"))
+                        max_id=max_id+1
+
+                        if(c==1):
+                            dicos[n-1][1][str(max_id)]=([mot[0]],[occurence])
+                        elif(c==2):
+
+                            dicos[n-2][1][str(max_id)]=([mot[0]],[])
+                            for occ in mot[1]:
+                                dicos[n-2][1][str(max_id)][1].append(occ)
+
+                            break
+                        elif (n==-3):
+                            done=True
+                            break
+                        elif (n==0):
+                            print("Peut-il y avoir des ambiguités sur ce mot?")
+                            print("1. Oui")
+                            print("2. Non")
+                            c=eval(input("Choix ?"))
+                            if(c==1):
+                                if(mot[0] in communs[0].keys()):
+                                    communs[0][mot[0]].append(occurence)
+                                else:
+                                    communs[0][mot[0]]=[occurence]
+                            if(c==2):
+                                if(mot[0] in communs[0].keys()):
+                                    for occ in mot[1]:
+                                        communs[0][mot[0]].append(occ)
+                                else:
+                                    communs[0][mot[0]]=[]
+                                    for occ in mot[1]:
+                                        communs[0][mot[0]].append(occ)
+                                break
 
 
 # sauvegarde et affiche le contenu de tous les dictionnaires

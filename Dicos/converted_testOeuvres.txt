@@ -14,6 +14,7 @@
 1013:Électre ou la chute des masques|Electre:
 1014:Élégies de Buckow|Elégies de Buckow:
 1015:Évangiles|Evangiles:
+1965:MARGUERITE YOURCENAR EN EST A LA RENAISSANCE:('Corpus\\articles_presse_yourcenar.txt', 4400, 6)
 805:Adieu Gary Cooper :
 806:Adolphe :
 807:Agamemnon|Agamemnon d' Eschyle:
@@ -111,7 +112,7 @@
 899:La Vie de Rancé|Vie de Rancé:
 900:La Voix des choses|LA VOIX DES CHOSES:
 901:La chambre de Jacob|Chambre de Jacob:
-902:La tentative amoureuse ou le traité du vain désir|Traité du Vain Désir|Maison Descartes de‧l' Institut Français d' Amsterdam:;('Corpus\\articles_presse_yourcenar.txt', 1734, 18)
+902:La tentative amoureuse ou le traité du vain désir|Traité du Vain Désir:
 903:Le Bateau ivre|Bateau:
 904:Le Cavalier polonais|Cavalier:
 905:Le Coup de grâce|Coup de Grâce:
@@ -169,7 +170,7 @@
 957:Méditations poétiques|Méditations:
 958:Méduse et cie|Méduse:
 959:Mémoires|Mémoires d' Ambroise Paré:
-960:Mémoires d' Hadrien|Mémoires d' Hadrien de Marguerite Yourcenar|Mémoires d' Hadrien de Marguerite Yourcenar:
+960:Mémoires d' Hadrien|Mémoires d' Hadrien de Marguerite Yourcenar|Mémoires d' Hadrien de Marguerite Yourcenar|Hortense Flexner de Mme Marguerite Yourcenar:;('Corpus\\articles_presse_yourcenar.txt', 4249, 21)
 961:Mémoires d'Hadrien|Aux Mémoires d' Hadrien:
 962:Mémoires d'outre-tombe|Outre Tombe:
 963:Negro Spirituals :

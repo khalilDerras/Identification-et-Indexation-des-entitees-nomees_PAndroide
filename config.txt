@@ -1,11 +1,14 @@
 [Corpus]
-fichiers=CorpusOmbreTxt
+fichiers=Corpus
 
 [Dictionnaires]
-
-PERSONNAGES=DicoOmbre\\Personnage.txt
-LIEUXX=DicoOmbre\\Lieux.txt
+INSTITUTIONS=Dicos\\converted_testInst.txt
+CRITIQUES=Dicos\\converted_testCrit.txt
+AUTEURS=Dicos\\converted_testAuthors.txt
+PERSONNES=Dicos\\converted_testPers.txt
+LIEUX=Dicos\\converted_testLieux.txt
+OEUVRES=Dicos\\converted_testOeuvres.txt
 
 [Autre]
-Communs = DicoOmbre\\communs.txt
-Bruits = DicoOmbre\\noise.txt
+Communs = Dicos\\converted_testCommun.txt
+Bruits = Dicos\\converted_testNoise.txt
