@@ -85,7 +85,7 @@
 1888:Jean Tordeur|Tordeur, Jean (1920- ):
 1889:Jean Vigneaux|Vigneaux, Jean:
 1890:Jean d' Ormesson|Ormesson, Jean (d' ) (1925- ):
-1891:Jean d'Ormesson|Jean d'Ormesson de‧l'Académie|Jean d' Ormesson de‧l' Académie|Jean d' ORMESSON|Jean d' ORMESSON|Jean D' Ormesson:
+1891:Jean d'Ormesson|Jean d'Ormesson de‧l'Académie|Jean d' Ormesson de‧l' Académie|Jean d' ORMESSON|Jean d' ORMESSON|Jean D' Ormesson|Maison Descartes de‧l' Institut Français d' Amsterdam:;('Corpus\\articles_presse_yourcenar.txt', 1734, 18)
 1892:Jean-Charles Gateau|Gateau, Jean-Charles (1932-2015):
 1893:Jean-Claude Ollier|Ollier, Jean-Claude:
 1894:Jean-Didier Wolfromm|Wolfromm, Jean-Didier (1941-1994):

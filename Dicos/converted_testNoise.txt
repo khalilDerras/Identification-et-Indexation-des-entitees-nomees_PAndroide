@@ -1493,3 +1493,9 @@ Zohar :
 Zénon Correspondance :
 Zénon Je :
 Zénon Marguerite Yourcenar :
+MARGUERITE YOURCENAR REGARDE AVEC UNE INDIFFERENCE:('Corpus\\articles_presse_yourcenar.txt', 2143, 5)
+BEI DER LECTÜRE EINES SPÄTGRIECHISCHEN DICHTERS:('Corpus\\articles_presse_yourcenar.txt', 358, 5)
+LE TRAVAIL DU POÈTE ET LE PROBLÈME DE LA TRADUCTION:('Corpus\\articles_presse_yourcenar.txt', 352, 9)
+Maison Descartes de‧l' Institut Français d' Elle:('Corpus\\articles_presse_yourcenar.txt', 1734, 19)
+MARGUERITE YOURCENAR REGARDE AVEC UNE AMUSEE:('Corpus\\articles_presse_yourcenar.txt', 2143, 6)
+MARGUERITE YOURCENAR N' EST QU' UN PRÊTE-NOM:('Corpus\\articles_presse_yourcenar.txt', 2356, 6)
